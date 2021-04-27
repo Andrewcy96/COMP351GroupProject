@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+
+</head>
+
+<body>
+        <table style = "width:100%">
+        <tr>
+            <td>METHOD</td>
+            <td>ENDPOINT</td>
+            <td>REQUESTS</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/BronzeServer/API/V1/Quotes/1</td>
+            <td id = "POSTCounter"></td>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td>/BronzeServer/API/V1/Quotes/2</td>
+            <td id = "PUTCounter"></td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>/BronzeServer/API/V1/Quotes/3</td>
+            <td id = "DELETECounter"></td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/BronzeServer/API/V1/Quotes/4</td>
+            <td id = "GETCounter"></td>
+        </tr>
+     
+    </table>
+    <br>
+    <br>
+    <button id = "refreshPOST">Refresh Counter</button>
+    <button id = "refreshPUT">Refresh Counter</button>
+    <button id = "refreshDELETE">Refresh Counter</button>
+    <button id = "refreshGET">Refresh Counter</button>
+    <br>
+    <br>
+    <div id="container"></div>
+    <br>
+    <button id="add">Add new quote</button>
+
+    <br>
+    <br>
+
+    <script>
+
+        const xhttp = new XMLHttpRequest();
+        const endPointRoot = "/";
+        let params = "";
+        let resource = "";
+        let id = 0;
+         let POSTCounter = 0;
+        let PUTCounter = 0;
+        let DELETECounter = 0;
+        let GETCounter = 0;
+
+        function add() {
+
+            let div = document.createElement("div");
+            div.id = id;
+
+            let div2 = document.createElement("div");
+
+            let element = document.createElement("textarea");
+            element.id = 'quote'
+            element.name = 'quote';
+            element.style.height = "80px"
+            element.style.width = "200px"
+
+            let element2 = document.createElement("input");
+            element2.type = 'button';
+            element2.id = 'delete';
+            element2.value = "delete from DB"
+            element2.style.margin = "5px";
+
+            let element3 = document.createElement("input");
+            element3.type = 'button';
+            element3.id = 'save';
+            element3.value = "Save"
+            element3.style.margin = "5px";
+
+            let element4 = document.createElement("input");
+            element4.type = 'button';
+            element4.id = 'change';
+            element4.value = "change"
+            element4.style.margin = "5px";
+            
+            element2.onclick = function () 
+            {
+                del();
+                id--
+                DELETECounter ++;
+                div2.remove()
+            }
+
+            element4.onclick = function(){
+                PUTCounter++;
+                put();
+            }
+        
+         
+            div2.appendChild(element);
+            div2.appendChild(element2);
+            div2.appendChild(element3);
+            div2.appendChild(element4);
+            div.appendChild(div2);
+
+            document.getElementById("container").appendChild(div);
+
+            params = element;
+            element3.onclick = function()
+            {
+                POSTCounter++;
+                post();
+            }
+            id++
+        }
+        document.getElementById("add").onclick = function () {
+            add();
+        }
+
+         
+        
+        function post() {
+                        
+            console.log("starting to post");
+            let obj = { 
+                id: id, 
+                POSTCounter: POSTCounter,
+                PUTCounter: PUTCounter,
+                DELETECounter: DELETECounter,
+                GETCounter: GETCounter,
+                body: JSON.stringify(params.value)
+            };
+
+        
+            xhttp.open("POST", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/", true);
+            xhttp.setRequestHeader("Content-Type", "application/x-www-div2-urlencoded");
+            console.log("before sending params is: " + JSON.stringify(params.value));
+           xhttp.send(JSON.stringify(obj));
+
+             xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("200 OK")
+                }
+                else if(this.status = 404){
+                    console.log("404 Not Found")
+                }
+                else if(this.status = 500){
+                    console.log("500 Internal Server Error")
+                }
+            };
+        }
+        function put() {
+                        
+            console.log("starting to put");
+            let obj = { 
+                id: id, 
+                 POSTCounter: POSTCounter,
+                PUTCounter: PUTCounter,
+                DELETECounter: DELETECounter,
+                GETCounter: GETCounter,
+                body: JSON.stringify(params.value)
+            };
+
+        
+            xhttp.open("PUT", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/", true);
+            xhttp.setRequestHeader("Content-Type", "application/x-www-div2-urlencoded");
+            console.log("before sending params is: " + JSON.stringify(params.value));
+           xhttp.send(JSON.stringify(obj));
+
+              xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("200 OK")
+                }
+                else if(this.status = 404){
+                    console.log("404 Not Found")
+                }
+                else if(this.status = 500){
+                    console.log("500 Internal Server Error")
+                }
+            };
+        }
+
+
+        function del(){
+
+            let obj = { 
+                POSTCounter: POSTCounter,
+                PUTCounter: PUTCounter,
+                DELETECounter: DELETECounter,
+                GETCounter: GETCounter,
+                id: id 
+            };
+        
+         xhttp.open("DELETE", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/", true);
+          xhttp.setRequestHeader("Content-type", "application/x-www-div2-urlencoded");
+          xhttp.send(JSON.stringify(obj));
+          xhttp.onreadystatechange = function(){
+             xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("200 OK")
+                }
+                else if(this.status = 404){
+                    console.log("404 Not Found")
+                }
+                else if(this.status = 500){
+                    console.log("500 Internal Server Error")
+                }
+            };
+          }
+
+}
+function getCounter(){
+         console.log("starting to post");
+            let obj = { 
+                id: id, 
+                POSTCounter: POSTCounter,
+                PUTCounter: PUTCounter,
+                DELETECounter: DELETECounter,
+                GETCounter: GETCounter,
+                body: JSON.stringify(params.value)
+            };
+
+        
+            xhttp.open("POST", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/1", true);
+            xhttp.setRequestHeader("Content-Type", "application/x-www-div2-urlencoded");
+            console.log("before sending params is: " + JSON.stringify(params.value));
+           xhttp.send(JSON.stringify(obj));
+
+             xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("200 OK")
+                }
+                else if(this.status = 404){
+                    console.log("404 Not Found")
+                }
+                else if(this.status = 500){
+                    console.log("500 Internal Server Error")
+                }
+            };
+}
+
+function getPOST() {
+console.log("inside get")
+xhttp.open("GET", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/1", true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send();
+xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("POSTCounter").innerHTML = this.responseText;
+    }
+};
+
+}
+function getPUT() {
+console.log("inside get")
+xhttp.open("GET", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/2", true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send();
+xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("PUTCounter").innerHTML = this.responseText;
+    }
+};
+
+}
+function getDELETE() {
+console.log("inside get")
+xhttp.open("GET", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/3", true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send();
+xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("DELETECounter").innerHTML = this.responseText;
+    }
+};
+
+}
+function getGET() {
+console.log("inside get")
+xhttp.open("GET", "https://andrewcyeung.website/BronzeServer/API/V1/Quotes/4", true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhttp.send();
+xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("GETCounter").innerHTML = this.responseText;
+    }
+};
+
+}
+document.getElementById("refreshPOST").onclick = function(){
+    GETCounter = 1;
+    getCounter();
+    getPOST();
+}
+document.getElementById("refreshPUT").onclick = function(){
+    GETCounter = 1;
+    getCounter();
+    getPUT();
+}
+document.getElementById("refreshDELETE").onclick = function(){
+    GETCounter = 1;
+    getCounter();
+    getDELETE();
+}
+document.getElementById("refreshGET").onclick = function(){
+    getCounter();
+    getGET();
+}
+    </script>
+</body>
+
+</html>

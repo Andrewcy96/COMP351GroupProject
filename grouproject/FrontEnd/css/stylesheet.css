@@ -1,0 +1,35 @@
+h1{
+    text-align: center;
+}
+
+textarea {
+    font-size: 16px;
+    border-style: double;
+}
+
+input {
+    font-size: 16px;
+    border: none;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+button {
+    border: 5px;
+    padding: 5px 20px;
+    text-align: center;
+    border-style: double;
+    font-size: 12px;
+    border-radius: 2px;
+}
+
+body {
+    text-align: center;
+}
+
+
+.container {
+    width: 50%;
+    margin: auto;
+    text-align: center
+}
